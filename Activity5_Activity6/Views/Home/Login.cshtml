@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <div>
+        <h1>Log In Page</h1>
+        <input type="text" id="txtemail" placeholder="Email" />
+        <br />
+        <input type="password" id="txtpassword" placeholder="Password" />
+        <br />
+        <input type="button" value="Login" id="btnlogin" />
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnlogin').click(function () {
+                var email = $('#txtemail').val();
+                var password = $('#txtpassword').val();
+                $.ajax({
+                    url: '/Token',
+                    method: 'Post',
+                    contentType: 'application/json',
+                    data: {
+                        "username": email,
+                        "password": password,
+                        grant_type: 'password'
+                    },
+                    success: function (response) {
+                        alert("Success: " + response.access_token);
+                        sessionStorage.setItem("accessToken", response.access_token);
+                        $('#txtemail').val('');
+                        $('#txtpassword').val('');
+                        window.location.href = "Employee";
+                    },
+                    error: function (error) {
+                        alert(error.responseText);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Employee";
+}
+
+<h2>Employee</h2>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Employee</title>
+</head>
+<body>
+    <div>
+        <h1>Employee List</h1>
+        <button id="btnloademployee">Load Employee</button>
+        <table id="tblemployee">
+        </table>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnloademployee').click(function () {
+                var table = $('#tblemployee');
+                $.ajax({
+                    url: '/api/Employees',
+                    method: 'Get',
+                    headers: {
+                        'Authorization': 'Bearer '
+                            + sessionStorage.getItem("accessToken")
+                    },
+                    success: function (response) {
+                        table.empty();
+                        table.append('<thead><tr><th>Employee No</th><th>Last Name</th><th>First Name</th>' +
+                            '<th>Address</th><th>Gender</th><th>Birthday</th></tr ></thead > <tbody>');
+                        $.each(response, function (index, val) {
+                            table.append('<tr><td>' + val.EmployeeNumber + '</td><td>' + val.Lastname + '</td>' +
+                                '<td>' + val.Firstname + '</td><td>' + val.Address + '</td>' +
+                                '<td>' + val.Gender + '</td><td>' + val.Birthday + '</td></tr>');
+
+                        });
+                    },
+                    error: function (error) {
+                        alert(error.responseText);
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>

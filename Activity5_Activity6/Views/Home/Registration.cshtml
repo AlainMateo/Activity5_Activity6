@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Registration";
+}
+
+<h2>Registration</h2>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registration</title>
+</head>
+<body>
+    <div>
+        <h1>Registration Page</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="success">
+                    <th colspan="2">
+                        New User Registration
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="text" id="txtEmail" placeholder="Email" /> </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>
+                        <input type="password" id="txtPassword"
+                               placeholder="Password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td>
+                        <input type="password" id="txtConfirmPassword"
+                               placeholder="Confirm Password" />
+                    </td>
+                </tr>
+                <tr class="success">
+                    <td colspan="2">
+                        <input id="btnRegister" class="btn btn-success"
+                               type="button" value="Register" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnRegister').click(function () {
+                var email = $('#txtEmail').val();
+                var password = $('#txtPassword').val();
+                var confirmPassword = $('#txtConfirmPassword').val();
+                $.ajax({
+                    url: '/api/account/register',
+                    method: 'Post',
+                    data: {
+                        "Email": email,
+                        "Password": password,
+                        "ConfirmPassword": confirmPassword
+                    },
+                    success: function () {
+                        alert("Success");
+                        $('#txtEmail').val('');
+                        $('#txtPassword').val('');
+                        $('#txtConfirmPassword').val('');
+                    },
+                    error: function (error) {
+                        alert("Error");
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
+
